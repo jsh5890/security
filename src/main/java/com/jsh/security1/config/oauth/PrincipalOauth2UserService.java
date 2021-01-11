@@ -45,7 +45,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
  		User userEntity = userRepository.findByUsername(username);
 		if(userEntity == null) {
 			userEntity = User.builder()
-					.username(username).password(password).email(email).role(role).provider(providerId).providerId(providerId).build();
+					.username(username).password(password).email(email).role(role).provider(provider).providerId(providerId).build();
 			userRepository.save(userEntity);
 		} 
 		
