@@ -2,11 +2,15 @@ package com.jsh.security1.config.auth;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.jsh.security1.model.User;
+
+import lombok.Data;
 
 //로긴진행이되면 시큐리티 세션만들어준다 (Security ContextHolder)
 // 오브젝트타입은  Authentication 타입객체
@@ -15,12 +19,21 @@ import com.jsh.security1.model.User;
 
 // Security Session => Authentication => UserDetails
 
-public class PrincipalDetails implements UserDetails{
+@Data 
+public class PrincipalDetails implements UserDetails, OAuth2User{
 
 	private User user; //콤포지션
+	private Map<String,Object> attributes;
 	
+	//일반로긴용
 	public PrincipalDetails(User user) {
 		this.user = user;
+	}
+	
+	//oauth로긴용
+	public PrincipalDetails(User user,Map<String,Object> attributes) {
+		this.user = user;
+		this.attributes = attributes;
 	}
 
 	//해당유저의 권한을 리턴
@@ -66,6 +79,16 @@ public class PrincipalDetails implements UserDetails{
 		
 		//사이트에서 1년동안 로긴안하면 휴먼계정
 		return true;
+	}
+
+	@Override
+	public Map<String, Object> getAttributes() {
+		return attributes;
+	}
+
+	@Override
+	public String getName() {
+		return null ;
 	}
 
 }

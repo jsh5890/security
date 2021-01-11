@@ -9,10 +9,13 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class User {
 
 	@Id //Pk
@@ -28,4 +31,19 @@ public class User {
 	private Timestamp createDate;
 	@CreationTimestamp
 	private Timestamp updateDate;
+
+	@Builder
+	public User(int id, String username, String password, String email, String role, String provider, String providerId,
+			Timestamp createDate, Timestamp updateDate) {
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.role = role;
+		this.provider = provider;
+		this.providerId = providerId;
+		this.createDate = createDate;
+		this.updateDate = updateDate;
+	}
+	
+	
 }
